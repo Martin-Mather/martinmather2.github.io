@@ -1,0 +1,240 @@
+body {
+    background-color: black;
+}
+
+canvas {
+    position: relative;
+    float: right;
+    padding: 10;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+}
+
+p {
+    color: rgb(255, 255, 255);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h3 {
+    color: white;
+}
+
+h1 {
+    color: white;
+}
+
+body {
+    background: black;
+    font-family: "Oswald", sans-serif;
+    font-style: italic;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.glitch {
+    color: rgb(223, 191, 191);
+    position: relative;
+    font-size: 9vw;
+    // margin: 70px 200px;
+    animation: glitch 5s 5s infinite;
+}
+
+.glitch::before {
+    content: attr(data-text);
+    position: absolute;
+    left: -2px;
+    text-shadow: -5px 0 magenta;
+    background: black;
+    overflow: hidden;
+    top: 0;
+    animation: noise-1 3s linear infinite alternate-reverse, glitch 5s 5.05s infinite;
+}
+
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 2px;
+    text-shadow: -5px 0 lightgreen;
+    background: black;
+    overflow: hidden;
+    top: 0;
+    animation: noise-2 3s linear infinite alternate-reverse, glitch 5s 5s infinite;
+}
+
+@keyframes glitch {
+    1% {
+        transform: rotateX(10deg) skewX(90deg);
+    }
+    2% {
+        transform: rotateX(0deg) skewX(0deg);
+    }
+}
+
+@keyframes noise-1 {
+    $steps: 30;
+    @for $i from 1 through $steps {
+        #{percentage($i*(1/$steps))} {
+            $top: random(100);
+            $bottom: random(101 - $top);
+            clip-path: inset(#{$top}px 0 #{$bottom}px 0);
+        }
+    }
+}
+
+@keyframes noise-2 {
+    $steps: 30;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+            $top: random(100);
+            $bottom: random(101 - $top);
+            clip-path: inset(#{$top}px 0 #{$bottom}px 0);
+        }
+    }
+}
+
+.scanlines {
+    overflow: hidden;
+    mix-blend-mode: difference;
+}
+
+.scanlines::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: repeating-linear-gradient( to bottom, transparent 0%, rgba(255, 255, 255, 0.05) .5%, transparent 1%);
+    animation: fudge 7s ease-in-out alternate infinite;
+}
+
+@keyframes fudge {
+    from {
+        transform: translate(0px, 0px);
+    }
+    to {
+        transform: translate(0px, 2%);
+    }
+}
+
+.glow {
+    @extend .glitch;
+    text-shadow: 0 0 1000px rgb(223, 191, 191);
+    color: transparent;
+    position: absolute;
+    top: 0;
+}
+
+.subtitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 100;
+    font-size: .8vw;
+    color: rgba(207, 187, 187, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1em;
+    text-align: center;
+    left: 17%;
+    animation: glitch-2 5s 5.02s infinite;
+    white-space: nowrap;
+}
+
+@keyframes glitch-2 {
+    1% {
+        transform: rotateX(10deg) skewX(70deg);
+    }
+    2% {
+        transform: rotateX(0deg) skewX(0deg);
+    }
+}
+
+
+/* The side navigation menu */
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #000000;
+    overflow: hidden;
+    mix-blend-mode: difference;
+    background: repeating-linear-gradient( to bottom, transparent 0%, rgba(0, 0, 0, 0.05) .5%, transparent 1%);
+    animation: fudge 7s ease-in-out alternate infinite;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+
+/* Sidebar links */
+
+.sidebar a {
+    display: block;
+    color: rgb(168, 168, 168);
+    padding: 16px;
+    text-decoration: none;
+}
+
+
+/* Active/current link */
+
+.sidebar a.active {
+    background-color: #000000;
+    color: rgb(240, 229, 229)
+}
+
+
+/* Links on mouse-over */
+
+.sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: rgb(182, 182, 182);
+}
+
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+
+div.content {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+}
+
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+
+@media screen and (max-width: 700px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .sidebar a {
+        float: left;
+    }
+    div.content {
+        margin-left: 0;
+    }
+}
+
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}
